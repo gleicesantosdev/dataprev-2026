@@ -1,5 +1,6 @@
 package br.com.gleicesantosdev.bibliotecadigital;
 
+
 import java.util.Scanner;
 
 public class Main {
@@ -36,10 +37,10 @@ public class Main {
 
         boolean usuarioAtivo = true;
 
-        if (disponivel){
+        if (disponivel) {
             System.out.println("Livro disponível para empréstimo");
         } else {
-            System.out.println("livro indisponível para empréstimo" );
+            System.out.println("livro indisponível para empréstimo");
         }
 
         if (idadeLivro >= 50) {
@@ -101,9 +102,21 @@ public class Main {
 
         } while (opcao != 0);
 
+        String[] livros = new String[3];
 
+        scanner.nextLine();
 
-        scanner.close();
+        for (int i = 0; i < livros.length; i++) {
+            System.out.print("Digite o título do livro " + (i + 1) + ": ");
+            livros[i] = scanner.nextLine();
+        }
+            System.out.println("=== LISTAR LIVROS CADASTRADOS ===");
 
+            for (int i = 0; i < livros.length; i++) {
+                System.out.println((i + 1) + " - " + livros[i]);
+            }
+
+            scanner.close();
+
+        }
     }
-}
