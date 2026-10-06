@@ -1,10 +1,11 @@
 package br.com.gleicesantosdev.bibliotecadigital;
 
-
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("=== Biblioteca Digital ===");
@@ -29,26 +30,25 @@ public class Main {
         System.out.print("Quantidade de páginas: ");
         int quantidadePaginas = scanner.nextInt();
 
-        boolean disponivel = quantidade > 0;
+        Livro livro = new Livro(
+                titulo,
+                autor,
+                anoPublicacao,
+                quantidade,
+                preco,
+                quantidadePaginas
+        );
 
-        int idadeLivro = 2026 - anoPublicacao;
+        boolean disponivel = livro.estaDisponivel();
 
-        String classificacao;
+        String classificacao = livro.calcularClassificacao();
 
         boolean usuarioAtivo = true;
 
         if (disponivel) {
             System.out.println("Livro disponível para empréstimo");
         } else {
-            System.out.println("livro indisponível para empréstimo");
-        }
-
-        if (idadeLivro >= 50) {
-            classificacao = "Clássico";
-        } else if (idadeLivro >= 20) {
-            classificacao = "Antigo";
-        } else {
-            classificacao = "Recente";
+            System.out.println("Livro indisponível para empréstimo");
         }
 
         if (usuarioAtivo && disponivel) {
@@ -60,32 +60,20 @@ public class Main {
         int opcao;
 
         do {
-            System.out.println();
-            System.out.println("=== MENU ===");
-            System.out.println("1 - Consultar informações");
-            System.out.println("2 - Verificar disponibilidade");
-            System.out.println("3 - Ver classificação do livro");
-            System.out.println("0 - Sair");
 
-            System.out.println("Escolha uma opção: ");
+            exibirMenu();
+
+            System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
 
             switch (opcao) {
+
                 case 1:
-                    System.out.println("=== INFORMAÇÕES DO LIVRO === ");
-                    System.out.println("Título: " + titulo);
-                    System.out.println("Autor: " + autor);
-                    System.out.println("Ano: " + anoPublicacao);
-                    System.out.println("Preço: R$ " + preco);
-                    System.out.println("Quantidade de páginas: " + quantidadePaginas);
+                    mostrarInformacoes(livro);
                     break;
 
                 case 2:
-                    if (disponivel) {
-                        System.out.println(" O livro está disponível para empréstimo.");
-                    } else {
-                        System.out.println("O livro está indisponível para empréstimo");
-                    }
+                    verificarDisponibilidade(disponivel);
                     break;
 
                 case 3:
@@ -110,13 +98,44 @@ public class Main {
             System.out.print("Digite o título do livro " + (i + 1) + ": ");
             livros[i] = scanner.nextLine();
         }
-            System.out.println("=== LISTAR LIVROS CADASTRADOS ===");
 
-            for (int i = 0; i < livros.length; i++) {
-                System.out.println((i + 1) + " - " + livros[i]);
-            }
+        System.out.println("=== LISTAR LIVROS CADASTRADOS ===");
 
-            scanner.close();
+        for (int i = 0; i < livros.length; i++) {
+            System.out.println((i + 1) + " - " + livros[i]);
+        }
 
+        scanner.close();
+    }
+
+
+    public static void exibirMenu() {
+
+        System.out.println();
+        System.out.println("=== MENU ===");
+        System.out.println("1 - Consultar informações");
+        System.out.println("2 - Verificar disponibilidade");
+        System.out.println("3 - Ver classificação do livro");
+        System.out.println("0 - Sair");
+    }
+
+
+    public static void verificarDisponibilidade(boolean disponivel) {
+
+        if (disponivel) {
+            System.out.println("O livro está disponível para empréstimo.");
+        } else {
+            System.out.println("O livro está indisponível para empréstimo.");
         }
     }
+
+
+    public static void mostrarInformacoes(Livro livro) {
+        System.out.println("=== INFORMAÇÕES DO LIVRO ===");
+        System.out.println("Título: " + livro.getTitulo());
+        System.out.println("Autor: " + livro.getAutor());
+        System.out.println("Ano: " + livro.getAnoPublicacao());
+        System.out.println("Preço: R$ " + livro.getPreco());
+        System.out.println("Quantidade de páginas: " + livro.getQuantidadePaginas());
+    }
+}
